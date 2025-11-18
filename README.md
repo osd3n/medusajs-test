@@ -98,7 +98,15 @@ curl "http://localhost:9000/store/currency/convert?amount=100&from=XXX&to=EUR" -
 **Ответ:**
 ```json
 {
-  "error": "Invalid currency code: XXX"
+  "error": "Validation failed",
+  "details": [
+    {
+      "property": "from",
+      "constraints": {
+        "isIn": "Unsupported currency: XXX"
+      }
+    }
+  ]
 }
 ```
 
@@ -110,7 +118,17 @@ curl "http://localhost:9000/store/currency/convert?amount=100&from=USD" -H "x-pu
 **Ответ:**
 ```json
 {
-  "error": "Parameter 'to' is required"
+  "error": "Validation failed",
+  "details": [
+    {
+      "property": "to",
+      "constraints": {
+        "isIn": "Unsupported currency: undefined",
+        "isLength": "to must be longer than or equal to 3 characters",
+        "isNotEmpty": "to should not be empty"
+      }
+    }
+  ]
 }
 ```
 
@@ -122,7 +140,16 @@ curl "http://localhost:9000/store/currency/convert?amount=abc&from=USD&to=EUR" -
 **Ответ:**
 ```json
 {
-  "error": "Amount must be a number"
+  "error": "Validation failed",
+  "details": [
+    {
+      "property": "amount",
+      "constraints": {
+          "isPositive": "amount must be a positive number",
+          "isNumber": "amount must be a number conforming to the specified constraints"
+      }
+    }
+  ]
 }
 ```
 
