@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "esModuleInterop": true,
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "declaration": false,
+    "sourceMap": false,
+    "inlineSourceMap": true,
+    "outDir": "./.medusa/server",
+    "rootDir": "./",
+    "baseUrl": "./",
+    "jsx": "react-jsx",
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "checkJs": false,
+    "strictNullChecks": true,
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@types": ["src/types"],
+      "@types/*": ["src/types/*"],
+      "@services": ["src/services"],
+      "@services/*": ["src/services/*"],
+      "@dto": ["src/dto"],
+      "@dto/*": ["src/dto/*"],
+      "@validation": ["src/validation"],
+      "@validation/*": ["src/validation/*"],
+      "@exceptions": ["src/exceptions"],
+      "@exceptions/*": ["src/exceptions/*"],
+      "@modules": ["src/modules"],
+      "@modules/*": ["src/modules/*"],
+      "@common": ["src/common"],
+      "@common/*": ["src/common/*"],
+    }
+  },
+  "ts-node": {
+    "swc": true
+  },
+  "include": [
+    "**/*",
+    ".medusa/types/*"
+  ],
+  "exclude": [
+    "node_modules",
+    ".medusa/server",
+    ".medusa/admin",
+    ".cache"
+  ]
+}
