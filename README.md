@@ -165,3 +165,9 @@ curl "http://localhost:9000/store/currency/convert?amount=abc&from=USD&to=EUR" -
 ## Поддерживаемые валюты
 
 USD, EUR, GBP, JPY, AUD, CAD, CHF, CNY, SEK, NZD, MXN, SGD, HKD, NOK, KRW, TRY, RUB, INR, BRL, ZAR, DKK, PLN, TWD, THB, MYR, IDR, CZK, HUF, ILS, CLP, PHP, AED, SAR, ARS, COP, PEN, VND, PKR, BGN, RON, HRK, UAH, KZT, EGP, QAR, KWD, BHD, OMR, JOD, LBP
+
+## От себя по поводу тестового
+
+В проекте намеренно оставлены TODO, чтобы показать, какие места потенциально можно далее развивать и дорабатывать. 
+С medusajs до этого не работал. В проекте я использовал подходы и наработки, которые привык и люблю использовать в своей деятельности. 
+В первую очередь тестовое выполнял, потому что было интересно посмотреть что-то новое :)
