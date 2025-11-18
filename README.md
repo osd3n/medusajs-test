@@ -2,30 +2,28 @@
 
 MedusaJS v2 проект с API для конвертации валют.
 
-## Установка и настройка проекта
+# Установка и настройка проекта
 
-# Для запуска проекта необходимы запущенная БД PostgreSQL и Redis
+## Для запуска проекта необходимы запущенная БД PostgreSQL и Redis
 
-# Для установки зависимостей используем yarn
-
+### Для установки зависимостей используем yarn
 ```bash
 yarn
 ```
 
-# После установки зависимостей необходимо запустить скрипт `medusa:setup` для инициализации базы данных
-
+### После установки зависимостей необходимо запустить скрипт `medusa:setup` для инициализации базы данных
 ```bash
 yarn medusa:setup
 ```
 
 ## Запуск
 
-# Запуск в режиме разработчика
+### Запуск в режиме разработчика
 ```bash
 yarn dev
 ```
 
-# Продакшн
+### Продакшн
 ```bash
 yarn build
 yarn start
@@ -33,14 +31,15 @@ yarn start
 
 ## Получение доступа к API
 
-# Для взаимодействия с проектом необходимо создать суперадмина
-
+### Для взаимодействия с проектом необходимо создать суперадмина
 ```bash
 npx medusa user -e admin@example.com -p supersecret
 ```
 
-Для получения доступа к API необходимо после старта проекта зайти на адрес `http://localhost:9000/app`
-Авторизоваться там с пользователем `admin@example.com` и паролем `supersecret`
+Для получения доступа к API необходимо после старта проекта зайти в админку `http://localhost:9000/app`
+
+Авторизоваться там под пользователем `admin@example.com` и паролем `supersecret`
+
 Зайти в Settings -> Publishable API Keys и создать ключ для API
 
 ## API Endpoints
@@ -139,4 +138,3 @@ curl "http://localhost:9000/store/currency/convert?amount=abc&from=USD&to=EUR" -
 ## Поддерживаемые валюты
 
 USD, EUR, GBP, JPY, AUD, CAD, CHF, CNY, SEK, NZD, MXN, SGD, HKD, NOK, KRW, TRY, RUB, INR, BRL, ZAR, DKK, PLN, TWD, THB, MYR, IDR, CZK, HUF, ILS, CLP, PHP, AED, SAR, ARS, COP, PEN, VND, PKR, BGN, RON, HRK, UAH, KZT, EGP, QAR, KWD, BHD, OMR, JOD, LBP
-
