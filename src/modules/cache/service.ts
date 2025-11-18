@@ -3,7 +3,7 @@ import { ConfigModule, logger } from "@medusajs/framework";
 
 import Redis from "ioredis";
 
-import { CachedRate, CacheModuleOptions } from "./types";
+import { CacheModuleOptions } from "./types";
 import { CACHE_MODULE } from './index';
 
 type InjectedDependencies = {
@@ -21,7 +21,7 @@ class CacheModuleService extends MedusaService({}) {
     const ref = configModule.modules?.[CACHE_MODULE];
 
     if (!ref || typeof ref === "boolean" || !ref.options) {
-    throw new Error("Cache module is not defined");
+      throw new Error("Cache module is not defined");
     }
 
     this.options = ref.options as unknown as CacheModuleOptions;

@@ -4,7 +4,7 @@ import axios, { HttpStatusCode } from "axios";
 
 import { ExchangeRateResponse } from "./types";
 
-// TODO: Вынести в отдельный модуль
+// TODO: По хорошему вынести в отдельный модуль
 export class ExchangeHelper {
   /**
    * Получает курс валюты из внешнего API

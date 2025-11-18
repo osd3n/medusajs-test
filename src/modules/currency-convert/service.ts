@@ -13,6 +13,7 @@ type InjectedDependencies = {
   configModule: ConfigModule,
 }
 
+//TODO: добавить логирование
 class CurrencyConvertModuleService extends MedusaService({}) {
   private readonly cacheService: CacheModuleService;
   
