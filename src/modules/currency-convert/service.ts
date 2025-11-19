@@ -1,45 +1,35 @@
 import { MedusaService } from "@medusajs/framework/utils";
 import { ConfigModule } from '@medusajs/framework/types';
+import { logger } from '@medusajs/framework';
 
 import { CACHE_MODULE } from "@modules/cache";
 import CacheModuleService from '@modules/cache/service';
+import { EXCHANGE_MODULE } from "@modules/exchange";
+import ExchangeModuleService from "@modules/exchange/service";
 
-import { CurrencyConversionParams, CurrencyConversionResponse, CurrencyConvertModuleOptions } from "./types";
-import { ExchangeHelper } from "./exchange.helper";
-import { CURRENCY_CONVERT_MODULE } from './index';
+import { CurrencyConversionParams, CurrencyConversionResponse } from "./types";
 
 type InjectedDependencies = {
   [CACHE_MODULE]: CacheModuleService,
-  configModule: ConfigModule,
+  [EXCHANGE_MODULE]: ExchangeModuleService,
 }
 
-//TODO: добавить логирование
 class CurrencyConvertModuleService extends MedusaService({}) {
   private readonly cacheService: CacheModuleService;
   
-  private readonly exchangeHelper = new ExchangeHelper();
-
-  private readonly options: CurrencyConvertModuleOptions;
+  private readonly exchangeService: ExchangeModuleService;
 
   constructor(deps: InjectedDependencies) {
     super(...arguments)
 
     this.cacheService = deps[CACHE_MODULE];
-
-    const ref = deps.configModule.modules?.[CURRENCY_CONVERT_MODULE];
-
-    if (!ref || typeof ref === "boolean" || !ref.options) {
-      throw new Error("Currency module is not defined");
-    }
-
-    this.options = ref.options as unknown as CurrencyConvertModuleOptions;
+    this.exchangeService = deps[EXCHANGE_MODULE];
   }
 
   /**
    * Получает курс валюты из кеша или внешнего API
    */
   async getExchangeRate(from: string, to: string): Promise<number> {
-    // Проверяем кеш
     const cacheKey = `${from}:${to}`;
     const cachedRate = await this.cacheService.get<number>(cacheKey, "exchange_rate");
 
@@ -47,14 +37,11 @@ class CurrencyConvertModuleService extends MedusaService({}) {
       return cachedRate;
     }
 
-    // Получаем курс из внешнего API
-    const rate = await this.exchangeHelper.getExchangeRate(
+    const rate = await this.exchangeService.getExchangeRate(
       from,
       to,
-      this.options.exchangeRateApiUrl,
     );
 
-    // Сохраняем в кеш
     await this.cacheService.set(cacheKey, rate, "exchange_rate");
 
     return rate;
@@ -67,6 +54,9 @@ class CurrencyConvertModuleService extends MedusaService({}) {
     params: CurrencyConversionParams,
   ): Promise<CurrencyConversionResponse> {
     const { amount, from, to } = params;
+
+    logger.info(`Processing currency conversion for ${amount} ${from} to ${to}`);
+
     const now = Date.now();
 
     // Для оптимизации, отдельно проверяем случай, когда исходная и целевая валюты совпадают
@@ -93,6 +83,8 @@ class CurrencyConvertModuleService extends MedusaService({}) {
       convertedAmount: Math.round(convertedAmount * 100) / 100,
       timestamp: now,
     };
+
+    logger.info(`Currency conversion response: ${JSON.stringify(response)}`);
 
     return response;
   }

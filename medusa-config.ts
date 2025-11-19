@@ -1,6 +1,8 @@
 import { loadEnv, defineConfig } from '@medusajs/framework/utils';
 
 import { CACHE_MODULE } from './src/modules/cache';
+import { EXCHANGE_MODULE } from './src/modules/exchange';
+import { SUPPORTED_CURRENCIES } from './src/common/constants';
 
 loadEnv(process.env.NODE_ENV ?? 'development', process.cwd())
 
@@ -20,22 +22,21 @@ module.exports = defineConfig({
       resolve: "./src/modules/cache",
       options: {
         redisUrl: process.env.REDIS_URL,
-        cacheTTLSeconds: 60 * 60,
-        prefix: "medusa",
+        cacheTTLSeconds: process.env.CACHE_TTL_SECONDS ? parseInt(process.env.CACHE_TTL_SECONDS) : 60 * 60,
+        prefix: process.env.REDIS_PREFIX ?? "medusa",
+      }
+    },
+    {
+      resolve: "./src/modules/exchange",
+      options: {
+        baseUrl: process.env.EXCHANGE_RATE_API_URL ?? "https://api.exchangerate-api.com/v4/latest",
       }
     },
     {
       resolve: "./src/modules/currency-convert",
-      dependencies: [CACHE_MODULE],
+      dependencies: [CACHE_MODULE, EXCHANGE_MODULE],
       options: {
-        exchangeRateApiUrl: process.env.EXCHANGE_RATE_API_URL ?? "https://api.exchangerate-api.com/v4/latest",
-        supportedCurrencies: [
-          "USD", "EUR", "GBP", "JPY", "AUD", "CAD", "CHF", "CNY", "SEK", "NZD",
-          "MXN", "SGD", "HKD", "NOK", "KRW", "TRY", "RUB", "INR", "BRL", "ZAR",
-          "DKK", "PLN", "TWD", "THB", "MYR", "IDR", "CZK", "HUF", "ILS", "CLP",
-          "PHP", "AED", "SAR", "ARS", "COP", "PEN", "VND", "PKR", "BGN", "RON",
-          "HRK", "UAH", "KZT", "EGP", "QAR", "KWD", "BHD", "OMR", "JOD", "LBP",
-        ],
+        supportedCurrencies: SUPPORTED_CURRENCIES,
       }
     },
   ],

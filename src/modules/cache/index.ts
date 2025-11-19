@@ -6,4 +6,3 @@ export const CACHE_MODULE = "cache";
 export default Module(CACHE_MODULE, {
   service: CacheModuleService,
 });
-

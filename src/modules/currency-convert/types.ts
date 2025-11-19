@@ -14,13 +14,6 @@ export interface CurrencyConversionResponse {
   timestamp: number;
 }
 
-export interface ExchangeRateResponse {
-  rates: Record<string, number>;
-  base: string;
-  date: string;
-}
-
 export interface CurrencyConvertModuleOptions {
-  exchangeRateApiUrl: string;
   supportedCurrencies: string[];
 }

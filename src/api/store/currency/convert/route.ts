@@ -1,12 +1,12 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 
 import { validateDto } from "@validation";
-import { ValidationException } from "@exceptions/validation.exception";
 
 import { CURRENCY_CONVERT_MODULE } from "@modules/currency-convert";
-import { CurrencyConversionResponse } from "@modules/currency-convert/types";
 
 import { ConvertCurrencyDto } from "./dto/convert-currency.dto";
+import { BaseException } from '@common/exceptions';
+import { HttpStatusCode } from 'axios';
 
 export async function GET(
   req: MedusaRequest,
@@ -33,23 +33,25 @@ export async function GET(
 
     res.json(response);
   } catch (error) {
-    if (error instanceof ValidationException) {
+    if (error instanceof BaseException) {
       res.status(error.statusCode).json({
-        error: error.message,
+        message: error.message,
         details: error.details,
       });
+
       return;
     }
 
     if (error instanceof Error) {
-      res.status(500).json({
-        error: error.message,
+      res.status(HttpStatusCode.InternalServerError).json({
+        message: error.message,
       });
+
       return;
     }
 
-    res.status(500).json({
-      error: "Internal server error",
+    res.status(HttpStatusCode.InternalServerError).json({
+      message: "Internal server error",
     });
   }
 }

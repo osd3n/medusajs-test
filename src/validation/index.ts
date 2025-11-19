@@ -1,7 +1,7 @@
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 
-import { ValidationException } from "../exceptions/validation.exception";
+import { ValidationException } from "@common/exceptions";
 
 export async function validateDto<T extends object>(
   dtoClass: new () => T,
